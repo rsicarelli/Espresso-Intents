@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Espresso Intents</string>
+    <string name="allow">Permitir</string>
+    <string name="deny">Negar</string>
+    <string name="not_now">Agora não</string>
+    <string name="go_to_settings">Ir para configurações</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Galeria</string>
+    <string name="title_rationale">Permitir que o Espresso Intents acesse sua memória interna?</string>
+    <string name="message_rationale">Esta permissão é necessária para que você utilizar a camera.</string>
+    <string name="message_rationale_product">Esta permissão é necessária para que você possa utilizar a camera.</string>
+    <string name="message_never_ask_again">Esta permissão é necessária para que você possa utilizar a camera. \n\nPara habilitar, clique em "Ir para configurações" abaixo e ative "Memória interna" dentro da opção "Permissões"</string>
+</resources>
