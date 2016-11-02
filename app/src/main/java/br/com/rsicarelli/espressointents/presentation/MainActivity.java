@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -26,12 +25,15 @@ public class MainActivity extends AppCompatActivity implements
 
     private ChoosePhotoHelper choosePhotoHelper;
     private Navigator navigator;
+    private Uri currentImageUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
         ButterKnife.bind(this);
+
         navigator = new Navigator(this);
         choosePhotoHelper = ChoosePhotoHelper.attach(this);
     }
@@ -87,11 +89,14 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     @OnClick(R.id.share)
-    public void onShare(){
-        Toast.makeText(this, "oie", Toast.LENGTH_SHORT).show();
+    public void onShare() {
+        if (currentImageUri != null) {
+            navigator.shareImage(getString(R.string.image_share), currentImageUri);
+        }
     }
 
     private void setImageResult(Uri imageUri) {
+        currentImageUri = imageUri;
         imageResult.setImageURI(imageUri);
     }
 }

@@ -57,15 +57,11 @@ public class ChoosePhotoHelper extends Fragment implements
     }
 
     private OnPermissionHelperListener getParent() {
-        Fragment parentFragment = getParentFragment();
-        if (parentFragment instanceof OnPermissionHelperListener) {
-            return (OnPermissionHelperListener) parentFragment;
-        } else {
-            Activity activity = getActivity();
-            if (activity instanceof OnPermissionHelperListener) {
-                return (OnPermissionHelperListener) activity;
-            }
+        Activity activity = getActivity();
+        if (activity instanceof OnPermissionHelperListener) {
+            return (OnPermissionHelperListener) activity;
         }
+
         return null;
     }
 
@@ -167,7 +163,7 @@ public class ChoosePhotoHelper extends Fragment implements
         PhotoPermissionResult.Builder builder = new PhotoPermissionResult.Builder();
         if (data.hasExtra(GalleryActivity.EXTRA_GALLERY_PHOTO)) {
             GalleryPhoto galleryPhoto = data.getParcelableExtra(GalleryActivity.EXTRA_GALLERY_PHOTO);
-            builder.withPhotoUri(Uri.parse("file://" + galleryPhoto.imageUri));
+            builder.withPhotoUri(Uri.parse(String.format("%s%s", "file://", galleryPhoto.imageUri)));
         } else if (photoLocalUri != null) {
             builder.withPhotoUri(photoLocalUri);
         }

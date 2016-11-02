@@ -10,4 +10,5 @@
     <string name="message_rationale">Esta permissão é necessária para que você utilizar a camera.</string>
     <string name="message_rationale_product">Esta permissão é necessária para que você possa utilizar a camera.</string>
     <string name="message_never_ask_again">Esta permissão é necessária para que você possa utilizar a camera. \n\nPara habilitar, clique em "Ir para configurações" abaixo e ative "Memória interna" dentro da opção "Permissões"</string>
+    <string name="image_share">Compartilhar imagem</string>
 </resources>

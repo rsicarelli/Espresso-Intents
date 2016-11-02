@@ -33,4 +33,12 @@ public class Navigator {
         Intent intent = new Intent(activity, GalleryActivity.class);
         activity.startActivityForResult(intent, requestCode);
     }
+
+    public void shareImage(String text, Uri imageUri) {
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        shareIntent.setType("image/*");
+        activity.startActivity(Intent.createChooser(shareIntent, text));
+    }
 }
