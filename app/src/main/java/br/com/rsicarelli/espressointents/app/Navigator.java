@@ -23,8 +23,7 @@ public class Navigator {
         activity.startActivity(intent);
     }
 
-    public void navigateToCamera(Uri photoLocalUri,
-                                 int requestImageCapture) {
+    public void navigateToCamera(Uri photoLocalUri, int requestImageCapture) {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, photoLocalUri);
         activity.startActivityForResult(intent, requestImageCapture);

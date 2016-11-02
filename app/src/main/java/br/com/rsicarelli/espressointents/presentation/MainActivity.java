@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -83,6 +84,11 @@ public class MainActivity extends AppCompatActivity implements
                 fragment.onActivityResult(requestCode, resultCode, data);
             }
         }
+    }
+
+    @OnClick(R.id.share)
+    public void onShare(){
+        Toast.makeText(this, "oie", Toast.LENGTH_SHORT).show();
     }
 
     private void setImageResult(Uri imageUri) {
