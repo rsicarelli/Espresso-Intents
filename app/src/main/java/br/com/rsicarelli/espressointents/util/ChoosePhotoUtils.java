@@ -19,10 +19,10 @@ public class ChoosePhotoUtils {
         try {
             return File.createTempFile(imageFileName, ".jpg", storageDir);
         } catch (Exception e) {
-            Log.e("error", "ImageBuilder> createExternalFile > " + e.getMessage());
+            Log.e("error", "Error on creating new image file: " + e.getMessage());
         }
 
         return null;
     }
-    
+
 }
