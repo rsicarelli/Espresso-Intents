@@ -13,11 +13,14 @@ import android.support.v7.app.AppCompatActivity;
 
 import java.io.File;
 
+import br.com.rsicarelli.espressointents.app.Navigator;
 import br.com.rsicarelli.espressointents.model.Permission;
 import br.com.rsicarelli.espressointents.model.PhotoPermissionResult;
+import br.com.rsicarelli.espressointents.presentation.GalleryActivity;
 import br.com.rsicarelli.espressointents.presentation.component.NeverAskPermissionDialogFragment;
 import br.com.rsicarelli.espressointents.presentation.component.RationaleDialogFragment;
 import br.com.rsicarelli.espressointents.util.ChoosePhotoUtils;
+import br.com.rsicarelli.frescogallery.GalleryPhoto;
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnShowRationale;
@@ -29,6 +32,7 @@ import static android.app.Activity.RESULT_OK;
 @RuntimePermissions
 public class ChoosePhotoHelper extends Fragment implements
         NeverAskPermissionDialogFragment.OnNeverAskPermissionDialogListener {
+
     public static final int REQUEST_IMAGE_CAPTURE = 1984;
     public static final int REQUEST_IMAGE_GALLERY = 1948;
     private static final String FRAG_TAG = ChoosePhotoHelper.class.getCanonicalName();
@@ -36,15 +40,11 @@ public class ChoosePhotoHelper extends Fragment implements
 
     private Permission permission;
     private Uri photoLocalUri;
+    private Navigator navigator;
 
     public static <ParentActivity extends AppCompatActivity & OnPermissionHelperListener>
     ChoosePhotoHelper attach(ParentActivity parent) {
         return attach(parent.getSupportFragmentManager());
-    }
-
-    public static <ParentActivity extends Fragment & OnPermissionHelperListener>
-    ChoosePhotoHelper attach(ParentActivity parent) {
-        return attach(parent.getChildFragmentManager());
     }
 
     private static ChoosePhotoHelper attach(FragmentManager fragmentManager) {
@@ -74,6 +74,7 @@ public class ChoosePhotoHelper extends Fragment implements
         super.onActivityCreated(savedInstanceState);
         if (getParent() != null) {
             permission = getParent().getPermission();
+            navigator = new Navigator(getActivity());
             restoreInstances(savedInstanceState);
         }
     }
@@ -150,11 +151,7 @@ public class ChoosePhotoHelper extends Fragment implements
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && getParent() != null) {
-            PhotoPermissionResult photoPermissionResult = new PhotoPermissionResult.Builder()
-                    .withData(data)
-                    .withRequestCode(requestCode)
-                    .withPhotoUri(photoLocalUri)
-                    .build();
+            PhotoPermissionResult photoPermissionResult = getPhotoPermissionForResult(data);
             switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE:
                     getParent().onImageCaptureResultReceived(photoPermissionResult);
@@ -166,10 +163,22 @@ public class ChoosePhotoHelper extends Fragment implements
         }
     }
 
+    private PhotoPermissionResult getPhotoPermissionForResult(Intent data) {
+        PhotoPermissionResult.Builder builder = new PhotoPermissionResult.Builder();
+        if (data.hasExtra(GalleryActivity.EXTRA_GALLERY_PHOTO)) {
+            GalleryPhoto galleryPhoto = data.getParcelableExtra(GalleryActivity.EXTRA_GALLERY_PHOTO);
+            builder.withPhotoUri(Uri.parse("file://" + galleryPhoto.imageUri));
+        } else if (photoLocalUri != null) {
+            builder.withPhotoUri(photoLocalUri);
+        }
+
+        return builder.build();
+    }
+
     //region NeverAskPermissionDialogFragment.OnNeverAskPermissionDialogListener
     @Override
     public void onGoToSettingsClick() {
-        ChoosePhotoUtils.navigateToAppSettings(getContext());
+        navigator.navigateToAppSettings();
     }
     //endregion
 

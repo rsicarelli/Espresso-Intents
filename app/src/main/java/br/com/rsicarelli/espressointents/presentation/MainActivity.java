@@ -1,6 +1,7 @@
 package br.com.rsicarelli.espressointents.presentation;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -8,10 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import br.com.rsicarelli.espressointents.R;
+import br.com.rsicarelli.espressointents.app.Navigator;
 import br.com.rsicarelli.espressointents.helper.ChoosePhotoHelper;
 import br.com.rsicarelli.espressointents.model.Permission;
 import br.com.rsicarelli.espressointents.model.PhotoPermissionResult;
-import br.com.rsicarelli.espressointents.util.ChoosePhotoUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -23,13 +24,14 @@ public class MainActivity extends AppCompatActivity implements
     SimpleDraweeView imageResult;
 
     private ChoosePhotoHelper choosePhotoHelper;
+    private Navigator navigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
+        navigator = new Navigator(this);
         choosePhotoHelper = ChoosePhotoHelper.attach(this);
     }
 
@@ -54,24 +56,23 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void navigateToGallery(PhotoPermissionResult photoPermissionResult) {
-
+        navigator.navigateToGallery(photoPermissionResult.getRequestCode());
     }
 
     @Override
     public void navigateToCamera(PhotoPermissionResult photoPermissionResult) {
-        ChoosePhotoUtils.navigateToCamera(this,
-                photoPermissionResult.getPhotoUri(),
+        navigator.navigateToCamera(photoPermissionResult.getPhotoUri(),
                 photoPermissionResult.getRequestCode());
     }
 
     @Override
     public void onImageCaptureResultReceived(PhotoPermissionResult photoPermissionResult) {
-        imageResult.setImageURI(photoPermissionResult.getPhotoUri());
+        setImageResult(photoPermissionResult.getPhotoUri());
     }
 
     @Override
     public void onImageGalleryResultReceived(PhotoPermissionResult photoPermissionResult) {
-
+        setImageResult(photoPermissionResult.getPhotoUri());
     }
 
     @Override
@@ -82,5 +83,9 @@ public class MainActivity extends AppCompatActivity implements
                 fragment.onActivityResult(requestCode, resultCode, data);
             }
         }
+    }
+
+    private void setImageResult(Uri imageUri) {
+        imageResult.setImageURI(imageUri);
     }
 }

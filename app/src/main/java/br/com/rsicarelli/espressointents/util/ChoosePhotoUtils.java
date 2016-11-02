@@ -1,13 +1,7 @@
 package br.com.rsicarelli.espressointents.util;
 
-import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 
 import java.io.File;
@@ -16,14 +10,6 @@ import java.util.Date;
 import java.util.Locale;
 
 public class ChoosePhotoUtils {
-
-    public static void navigateToAppSettings(Context context) {
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        intent.setData(Uri.parse(String.format("package:%s", context.getPackageName())));
-        intent.addCategory(Intent.CATEGORY_DEFAULT);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
-    }
 
     @Nullable
     public static File createImageFile() {
@@ -38,12 +24,5 @@ public class ChoosePhotoUtils {
 
         return null;
     }
-
-    public static void navigateToCamera(FragmentActivity activity,
-                                        Uri photoLocalUri,
-                                        int requestImageCapture) {
-        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, photoLocalUri);
-        activity.startActivityForResult(intent, requestImageCapture);
-    }
+    
 }
