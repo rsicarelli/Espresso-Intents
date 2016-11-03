@@ -6,7 +6,10 @@ import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.Settings;
 
+import java.util.ArrayList;
+
 import br.com.rsicarelli.espressointents.presentation.GalleryActivity;
+import br.com.rsicarelli.frescogallery.GalleryPhoto;
 
 public class Navigator {
     private final Activity activity;
@@ -29,9 +32,9 @@ public class Navigator {
         activity.startActivityForResult(intent, requestImageCapture);
     }
 
-    public void navigateToGallery(int requestCode) {
-        Intent intent = new Intent(activity, GalleryActivity.class);
-        activity.startActivityForResult(intent, requestCode);
+    public void navigateToGallery(int requestCode, ArrayList<GalleryPhoto> imagesOnDevice) {
+        Intent callingIntent = GalleryActivity.getCallingIntent(activity, imagesOnDevice);
+        activity.startActivityForResult(callingIntent, requestCode);
     }
 
     public void shareImage(String text, Uri imageUri) {

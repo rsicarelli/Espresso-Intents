@@ -3,6 +3,7 @@ package br.com.rsicarelli.espressointents.presentation;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 
@@ -17,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class MainActivity extends AppCompatActivity implements
+public class HomeActivity extends AppCompatActivity implements
         ChoosePhotoHelper.OnPermissionHelperListener {
 
     @BindView(R.id.image_result)
@@ -25,16 +26,21 @@ public class MainActivity extends AppCompatActivity implements
 
     private ChoosePhotoHelper choosePhotoHelper;
     private Navigator navigator;
-    private Uri currentImageUri;
+
+    @VisibleForTesting
+    Uri currentImageUri;
+
+    ClassTest test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        
+
         ButterKnife.bind(this);
 
         navigator = new Navigator(this);
+        test = new ClassTest();
         choosePhotoHelper = ChoosePhotoHelper.attach(this);
     }
 
@@ -59,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void navigateToGallery(PhotoPermissionResult photoPermissionResult) {
-        navigator.navigateToGallery(photoPermissionResult.getRequestCode());
+        navigator.navigateToGallery(photoPermissionResult.getRequestCode(), test.getGalleryPhotos(this));
     }
 
     @Override
