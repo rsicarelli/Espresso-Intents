@@ -26,6 +26,7 @@ public class HomeActivity extends AppCompatActivity implements
 
     private ChoosePhotoHelper choosePhotoHelper;
     private Navigator navigator;
+    private Uri currentImageUri;
 
     @VisibleForTesting
     Uri currentImageUri;
