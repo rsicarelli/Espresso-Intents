@@ -44,12 +44,4 @@ public class Navigator {
         shareIntent.setType("image/*");
         activity.startActivity(Intent.createChooser(shareIntent, text));
     }
-
-    public void shareImage(String text, Uri imageUri) {
-        Intent shareIntent = new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-        shareIntent.setType("image/*");
-        activity.startActivity(Intent.createChooser(shareIntent, text));
-    }
 }

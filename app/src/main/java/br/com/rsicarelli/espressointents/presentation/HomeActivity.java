@@ -12,6 +12,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import br.com.rsicarelli.espressointents.R;
 import br.com.rsicarelli.espressointents.app.Navigator;
 import br.com.rsicarelli.espressointents.helper.ChoosePhotoHelper;
+import br.com.rsicarelli.espressointents.helper.PhotoManager;
 import br.com.rsicarelli.espressointents.model.Permission;
 import br.com.rsicarelli.espressointents.model.PhotoPermissionResult;
 import butterknife.BindView;
@@ -26,12 +27,11 @@ public class HomeActivity extends AppCompatActivity implements
 
     private ChoosePhotoHelper choosePhotoHelper;
     private Navigator navigator;
-    private Uri currentImageUri;
 
     @VisibleForTesting
     Uri currentImageUri;
 
-    ClassTest test;
+    private PhotoManager photoManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public class HomeActivity extends AppCompatActivity implements
         ButterKnife.bind(this);
 
         navigator = new Navigator(this);
-        test = new ClassTest();
+        photoManager = new PhotoManager();
         choosePhotoHelper = ChoosePhotoHelper.attach(this);
     }
 
@@ -66,7 +66,7 @@ public class HomeActivity extends AppCompatActivity implements
 
     @Override
     public void navigateToGallery(PhotoPermissionResult photoPermissionResult) {
-        navigator.navigateToGallery(photoPermissionResult.getRequestCode(), test.getGalleryPhotos(this));
+        navigator.navigateToGallery(photoPermissionResult.getRequestCode(), photoManager.getGalleryPhotos(this));
     }
 
     @Override
@@ -105,5 +105,9 @@ public class HomeActivity extends AppCompatActivity implements
     private void setImageResult(Uri imageUri) {
         currentImageUri = imageUri;
         imageResult.setImageURI(imageUri);
+    }
+
+    public void setPhotoManager(PhotoManager photoManager) {
+        this.photoManager = photoManager;
     }
 }
